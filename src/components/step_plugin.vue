@@ -15,30 +15,76 @@
       <hr class="divide">
 
       <p class="title">操作日志</p>
+      <div class="wrap">
 
-      <div class="logButton">
-        <span>批复中...</span>
-      </div>
+        <div class="content-title">
 
-      <el-card v-for="content in contentData" :key="content.id"
-        class="box-card detail-card" shadow="hover">
-        <el-collapse>
-          <el-collapse-item name="step-detail">
-            <template slot="title">
-              <p class="coll-title">{{ content.title }}</p>
-              <p class="coll-date">{{ content.date }}</p>
-            </template>
-            <div class="pop">
-              <p class="pop-title">{{ content.nameTitle }}</p>
-              <p class="pop-content">{{ content.name }}</p>
-              <p class="pop-title">{{ content.intentTitle }}</p>
-              <p class="pop-content">{{ content.intent }}</p>
-              <p class="pop-title">{{ content.textTitle }}</p>
-              <p class="pop-content">{{ content.text }}</p>
+          <div class="step-div" v-for="(content, index) in contentData"
+          :key="content.id">
+            <div class="collapse">
+              <div class="step-title">
+                <div>{{ content.id }}</div>
+              </div>
+              <el-collapse-transition>
+                <div class="pop" v-show="show['show' + index]">
+                  <p class="step-p"></p>
+                  <p class="step-p"></p>
+                  <p class="step-p"></p>
+                  <p class="step-p"></p>
+                  <p class="step-p"></p>
+                  <p class="step-p add-p-padding-bottom"></p>
+                </div>
+              </el-collapse-transition>
             </div>
-          </el-collapse-item>
-        </el-collapse>
-      </el-card>
+          </div>
+
+        </div>
+
+        <div class="content-detail">
+
+          <div class="logButton">
+            <span>批复中...</span>
+          </div>
+
+          <el-card v-for="(content, index) in contentData" :key="content.id"
+            class="box-card detail-card" shadow="hover">
+            <!-- <el-collapse>
+              <el-collapse-item name="step-detail">
+                <template slot="title">
+                  <p class="coll-title">{{ content.title }}</p>
+                  <p class="coll-date">{{ content.date }}</p>
+                </template>
+                <div class="pop">
+                  <p class="pop-title">{{ content.nameTitle }}</p>
+                  <p class="pop-content">{{ content.name }}</p>
+                  <p class="pop-title">{{ content.intentTitle }}</p>
+                  <p class="pop-content">{{ content.intent }}</p>
+                  <p class="pop-title">{{ content.textTitle }}</p>
+                  <p class="pop-content">{{ content.text }}</p>
+                </div>
+              </el-collapse-item>
+            </el-collapse> -->
+            <div class="collapse">
+              <div class="title-div" @click="test(index)">
+                <p class="coll-title">{{ content.title }}</p>
+                <p class="coll-date">{{ content.date }}</p>
+              </div>
+              <el-collapse-transition>
+                <div class="pop" v-show="show['show' + index]">
+                  <p class="pop-title">{{ content.nameTitle }}</p>
+                  <p class="pop-content">{{ content.name }}</p>
+                  <p class="pop-title">{{ content.intentTitle }}</p>
+                  <p class="pop-content">{{ content.intent }}</p>
+                  <p class="pop-title">{{ content.textTitle }}</p>
+                  <p class="pop-content add-padding-bottom">{{ content.text }}</p>
+                </div>
+              </el-collapse-transition>
+            </div>
+          </el-card>
+
+        </div>
+
+      </div>
 
     </el-card>
 
@@ -54,13 +100,19 @@ export default {
       active1: '',
       active2: '',
       contentData: [],
-      description: `淮安-张小强\n2018.03.13`
+      description: `淮安-张小强2018.03.13`,
+      show: {
+        show0: false,
+        show1: false,
+        show2: false
+      }
     }
   },
   created () {
     let contentData = [
       {
         id: 1,
+        showName: 'show0',
         title: '报送',
         date: '2018.03.13',
         nameTitle: '报送人',
@@ -72,6 +124,7 @@ export default {
       },
       {
         id: 2,
+        showName: 'show1',
         title: '研判',
         date: '2018.03.15',
         nameTitle: '研判人',
@@ -83,6 +136,7 @@ export default {
       },
       {
         id: 3,
+        showName: 'show2',
         title: '复核',
         date: '2018.03.17',
         nameTitle: '复核人',
@@ -94,6 +148,15 @@ export default {
       }
     ]
     this.contentData = contentData.reverse()
+    contentData.forEach(item => {
+      this.show[item.showName] = false
+    })
+    console.log(this.show)
+  },
+  methods: {
+    test (val) {
+      this.show['show' + val] = !this.show['show' + val]
+    }
   }
 }
 </script>
@@ -127,6 +190,9 @@ set-opacity(opacity)
   .el-collapse
     border-top 0
 
+.title-div
+  cursor pointer
+
 .coll-apse-nav
   border 1px solid red
   position relative
@@ -149,6 +215,9 @@ set-opacity(opacity)
   line-height 26px
   font-size $content-font-size
   color set-opacity(.45)
+
+.add-padding-bottom
+  padding-bottom 36px
 
 .pop-title
   margin-top 12px
@@ -176,6 +245,7 @@ set-opacity(opacity)
   background-color $blue-color
   margin-top 24px
   margin-bottom 4px
+  margin-left 50px
 
   span
     margin auto auto
@@ -186,5 +256,36 @@ set-opacity(opacity)
     font-size $pop-font-size
     text-align center
     line-height 32px
+
+.content-title
+  width 50px
+  float left
+  margin-top 32px
+  border 0
+
+.step-div
+  margin-top 24px
+
+// 内容左侧样式
+.step-title
+  height 72px
+  position relative
+
+  div
+    width 24px
+    height 24px
+    border-radius 50%
+    border 2px solid set-opacity(.15)
+    position absolute
+    top 23px
+    text-align center
+    color set-opacity(.15)
+
+.step-p
+  height $pop-font-size
+  margin-top 12px
+
+.add-p-padding-bottom
+  padding-bottom 54px
 
 </style>
