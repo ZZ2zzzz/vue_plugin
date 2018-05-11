@@ -1,15 +1,12 @@
 <template>
-  <user></user>
+  <div id="app">
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
-import user from './components/user'
-
 export default {
-  name: 'App',
-  components: {
-    user
-  }
+  name: 'App'
 }
 </script>
 

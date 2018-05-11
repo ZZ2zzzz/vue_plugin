@@ -5,86 +5,102 @@
       <p class="title">流程进度</p>
 
       <el-steps :active="3" finish-status="success">
-        <el-step title="已报送" :description="description">asdadasd</el-step>
+        <el-step title="已报送" :description="description"></el-step>
         <el-step title="已研判"></el-step>
         <el-step title="已复核"></el-step>
         <el-step title="处置"></el-step>
         <el-step title="完成"></el-step>
       </el-steps>
 
-      <hr class="divide">
-
-      <p class="title">操作日志</p>
-      <div class="wrap">
-
-        <div class="content-title">
-
-          <div class="step-div" v-for="(content, index) in contentData"
-          :key="content.id">
-            <div class="collapse">
-              <div class="step-title">
-                <div>{{ content.id }}</div>
-              </div>
-              <el-collapse-transition>
-                <div class="pop" v-show="show['show' + index]">
-                  <p class="step-p"></p>
-                  <p class="step-p"></p>
-                  <p class="step-p"></p>
-                  <p class="step-p"></p>
-                  <p class="step-p"></p>
-                  <p class="step-p add-p-padding-bottom"></p>
-                </div>
-              </el-collapse-transition>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="content-detail">
-
-          <div class="logButton">
-            <span>批复中...</span>
-          </div>
-
-          <el-card v-for="(content, index) in contentData" :key="content.id"
-            class="box-card detail-card" shadow="hover">
-            <!-- <el-collapse>
-              <el-collapse-item name="step-detail">
-                <template slot="title">
-                  <p class="coll-title">{{ content.title }}</p>
-                  <p class="coll-date">{{ content.date }}</p>
-                </template>
-                <div class="pop">
-                  <p class="pop-title">{{ content.nameTitle }}</p>
-                  <p class="pop-content">{{ content.name }}</p>
-                  <p class="pop-title">{{ content.intentTitle }}</p>
-                  <p class="pop-content">{{ content.intent }}</p>
-                  <p class="pop-title">{{ content.textTitle }}</p>
-                  <p class="pop-content">{{ content.text }}</p>
-                </div>
-              </el-collapse-item>
-            </el-collapse> -->
-            <div class="collapse">
-              <div class="title-div" @click="test(index)">
-                <p class="coll-title">{{ content.title }}</p>
-                <p class="coll-date">{{ content.date }}</p>
-              </div>
-              <el-collapse-transition>
-                <div class="pop" v-show="show['show' + index]">
-                  <p class="pop-title">{{ content.nameTitle }}</p>
-                  <p class="pop-content">{{ content.name }}</p>
-                  <p class="pop-title">{{ content.intentTitle }}</p>
-                  <p class="pop-content">{{ content.intent }}</p>
-                  <p class="pop-title">{{ content.textTitle }}</p>
-                  <p class="pop-content add-padding-bottom">{{ content.text }}</p>
-                </div>
-              </el-collapse-transition>
-            </div>
-          </el-card>
-
-        </div>
-
+      <div class="click-show-vertical" @click="verticalShow =
+      !verticalShow">
+        <span v-show="!verticalShow">查看更多</span>
+        <span v-show="verticalShow">收起</span>
+        <i v-show="!verticalShow" class="el-icon-arrow-down"></i>
+        <i v-show="verticalShow" class="el-icon-arrow-up"></i>
       </div>
+
+      <el-collapse-transition>
+        <div class="vertical-step" v-show="verticalShow">
+          <hr class="divide">
+
+          <p class="title">操作日志</p>
+          <div class="wrap">
+
+            <div class="content-title">
+
+              <div class="step-div" v-for="(content, index) in contentData"
+              :key="content.id">
+                <div class="collapse">
+                  <div class="step-title">
+                    <div>{{ content.id }}</div>
+                  </div>
+                  <el-collapse-transition>
+                    <div class="pop" v-show="show['show' + index]">
+                      <p class="step-p"></p>
+                      <p class="step-p"></p>
+                      <p class="step-p"></p>
+                      <p class="step-p"></p>
+                      <p class="step-p"></p>
+                      <p class="step-p add-p-padding-bottom"></p>
+                    </div>
+                  </el-collapse-transition>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="content-detail">
+
+              <div class="extra-step">
+                <div>{{ extraStep }}</div>
+              </div>
+
+              <div class="logButton">
+                <span>批复中...</span>
+              </div>
+
+              <el-card v-for="(content, index) in contentData" :key="content.id"
+                class="box-card detail-card" shadow="hover">
+                <!-- <el-collapse>
+                  <el-collapse-item name="step-detail">
+                    <template slot="title">
+                      <p class="coll-title">{{ content.title }}</p>
+                      <p class="coll-date">{{ content.date }}</p>
+                    </template>
+                    <div class="pop">
+                      <p class="pop-title">{{ content.nameTitle }}</p>
+                      <p class="pop-content">{{ content.name }}</p>
+                      <p class="pop-title">{{ content.intentTitle }}</p>
+                      <p class="pop-content">{{ content.intent }}</p>
+                      <p class="pop-title">{{ content.textTitle }}</p>
+                      <p class="pop-content">{{ content.text }}</p>
+                    </div>
+                  </el-collapse-item>
+                </el-collapse> -->
+                <div class="collapse">
+                  <div class="title-div" @click="test(index)">
+                    <p class="coll-title">{{ content.title }}</p>
+                    <p class="coll-date">{{ content.date }}</p>
+                  </div>
+                  <el-collapse-transition>
+                    <div class="pop" v-show="show['show' + index]">
+                      <p class="pop-title">{{ content.nameTitle }}</p>
+                      <p class="pop-content">{{ content.name }}</p>
+                      <p class="pop-title">{{ content.intentTitle }}</p>
+                      <p class="pop-content">{{ content.intent }}</p>
+                      <p class="pop-title">{{ content.textTitle }}</p>
+                      <p class="pop-content add-padding-bottom">{{ content.text }}</p>
+                    </div>
+                  </el-collapse-transition>
+                </div>
+              </el-card>
+
+            </div>
+
+          </div>
+        </div>
+      </el-collapse-transition>
 
     </el-card>
 
@@ -100,12 +116,20 @@ export default {
       active1: '',
       active2: '',
       contentData: [],
-      description: `淮安-张小强2018.03.13`,
+      description: '淮安-张小强',
+      verticalShow: true,
       show: {
         show0: false,
         show1: false,
-        show2: false
+        show2: false,
+        show3: false,
+        show4: false
       }
+    }
+  },
+  computed: {
+    extraStep () {
+      return this.contentData.length + 1
     }
   },
   created () {
@@ -287,5 +311,25 @@ set-opacity(opacity)
 
 .add-p-padding-bottom
   padding-bottom 54px
+
+.wrap
+  position relative
+
+//点击弹出vertical-step的div样式
+.click-show-vertical
+  height 20px
+  margin-top 15px
+  cursor pointer
+  text-align center
+
+.extra-step
+  width 24px
+  height 24px
+  border-radius 50%
+  border 2px solid set-opacity(.15)
+  position absolute
+  top 2px
+  text-align center
+  color set-opacity(.15)
 
 </style>
